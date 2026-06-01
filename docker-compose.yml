@@ -1,0 +1,57 @@
+# docker-compose.yml
+version: '3.8' # Version de la syntaxe
+
+services:
+
+  # --- 1. BASE DE DONNÉES ---
+  database:
+    build: ./tp1/
+    container_name: my3tierapp
+    restart: unless-stopped # Bonne pratique : redémarre si ça plante, sauf arrêt manuel
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - my-db-volume:/var/lib/postgresql/data # Persistance des données
+    networks:
+      - db-network
+
+  # --- 2. BACKEND API ---
+  backend:
+    build: ./backend-api/simpleapi
+    container_name: ${BACKEND_CONTAINER_NAME}
+    restart: unless-stopped
+    # On charge le fichier .env que vous avez créé à l'étape précédente
+    env_file:
+      - ./backend-api/simpleapi/.env
+    # Note de sécurité respectée : PAS de section "ports:" ici ! 
+    # Le backend n'est accessible que de l'intérieur du réseau Docker.
+    depends_on:
+      - database # Attend que la base soit créée avant de démarrer
+    networks:
+      - app-network
+      - db-network
+
+  # --- 3. SERVEUR HTTP (Reverse Proxy) ---
+  httpd:
+    build: ./http-server
+    container_name: httpd-server
+    restart: unless-stopped
+    # C'est le SEUL point d'entrée exposé à votre machine (port 80)
+    ports:
+      - "80:80"
+    depends_on:
+      - backend # Attend que le backend soit prêt
+    networks:
+      - app-network
+
+# --- DÉCLARATION DES RESSOURCES GLOBALES ---
+networks:
+  app-network:
+    driver: bridge # Docker Compose créera ce réseau automatiquement
+  db-network:
+    driver: bridge
+
+volumes:
+  my-db-volume: # Docker Compose gérera ce volume de manière transparente
