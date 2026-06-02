@@ -1,0 +1,45 @@
+name: Backend CD
+
+on:
+  workflow_run:
+    workflows: ["Backend CI"]
+    types:
+      - completed
+    branches:
+      - master # S'exécute UNIQUEMENT si le workflow CI a tourné sur la branche master
+
+jobs:
+  build-and-push-docker-image:
+    # ATTENTION : 'completed' signifie que le workflow CI s'est terminé, qu'il ait réussi OU échoué.
+    # Cette condition 'if' est CRUCIALE pour ne lancer le job que si la CI est passée (success).
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to DockerHub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      # Comme ce workflow ne se lance que sur master, on peut forcer le 'push: true' directement
+      - name: Build image and push backend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend-api/simpleapi
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/my-simple-api:latest
+          push: true
+
+      - name: Build image and push database
+        uses: docker/build-push-action@v6
+        with:
+          context: ./database
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/my-postgres-db:latest
+          push: true
+
+      - name: Build image and push httpd
+        uses: docker/build-push-action@v6
+        with:
+          context: ./http-server
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/my-apache-proxy:latest
+          push: true
