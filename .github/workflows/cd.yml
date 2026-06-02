@@ -28,6 +28,7 @@ jobs:
         with:
           context: ./backend-api/simpleapi
           tags: ${{secrets.DOCKERHUB_USERNAME}}/my-simple-api:latest
+                ${{secrets.DOCKERHUB_USERNAME}}/my-simple-api:${{ github.sha }}
           push: true
 
       - name: Build image and push database
@@ -35,6 +36,7 @@ jobs:
         with:
           context: ./database
           tags: ${{secrets.DOCKERHUB_USERNAME}}/my-postgres-db:latest
+                ${{secrets.DOCKERHUB_USERNAME}}/my-postgres-db:${{ github.sha }}
           push: true
 
       - name: Build image and push httpd
@@ -42,4 +44,5 @@ jobs:
         with:
           context: ./http-server
           tags: ${{secrets.DOCKERHUB_USERNAME}}/my-apache-proxy:latest
+                ${{secrets.DOCKERHUB_USERNAME}}/my-apache-proxy:${{ github.sha }}
           push: true
