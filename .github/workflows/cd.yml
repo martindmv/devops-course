@@ -6,7 +6,7 @@ on:
     types:
       - completed
     branches:
-      - master # S'exécute UNIQUEMENT si le workflow CI a tourné sur la branche master
+      - main # S'exécute UNIQUEMENT si le workflow CI a tourné sur la branche main
 
 jobs:
   build-and-push-docker-image:
@@ -22,7 +22,7 @@ jobs:
       - name: Login to DockerHub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
-      # Comme ce workflow ne se lance que sur master, on peut forcer le 'push: true' directement
+      # Comme ce workflow ne se lance que sur main, on peut forcer le 'push: true' directement
       - name: Build image and push backend
         uses: docker/build-push-action@v6
         with:
