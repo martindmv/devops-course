@@ -27,7 +27,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./backend-api/simpleapi
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/my-simple-api:latest
+          tags: |
+                ${{secrets.DOCKERHUB_USERNAME}}/my-simple-api:latest
                 ${{secrets.DOCKERHUB_USERNAME}}/my-simple-api:${{ github.sha }}
           push: true
 
@@ -35,7 +36,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./database
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/my-postgres-db:latest
+          tags: |
+                ${{secrets.DOCKERHUB_USERNAME}}/my-postgres-db:latest
                 ${{secrets.DOCKERHUB_USERNAME}}/my-postgres-db:${{ github.sha }}
           push: true
 
@@ -43,6 +45,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./http-server
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/my-apache-proxy:latest
+          tags: |
+                ${{secrets.DOCKERHUB_USERNAME}}/my-apache-proxy:latest
                 ${{secrets.DOCKERHUB_USERNAME}}/my-apache-proxy:${{ github.sha }}
           push: true
