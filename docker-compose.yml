@@ -5,7 +5,7 @@ services:
 
   # --- 1. BASE DE DONNÉES ---
   database:
-    build: ./tp1/
+    build: ./database/
     container_name: my3tierapp
     restart: unless-stopped # Bonne pratique : redémarre si ça plante, sauf arrêt manuel
     environment:
