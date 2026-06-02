@@ -34,3 +34,4 @@ The most important commands are:
 **1-8 Document your docker-compose file.**
 
 This file manages a complete three-tier architecture (database, backend, reverse proxy) by automating their setup, startup sequence, and data persistence. It effectively secures the application by isolating the database and API on internal networks, exposing only the HTTP server to the outside world via port 80.
+
