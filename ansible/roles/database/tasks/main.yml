@@ -1,0 +1,13 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/database
+- name: Run Database
+  docker_container:
+    name: my3tierapp
+    image: martindmv/my-postgres-db:latest # Ou l'image de la DB de ton projet précédent
+    networks:
+      - name: db-network
+    env:
+      POSTGRES_USER: "{{ DB_USER }}"
+      POSTGRES_PASSWORD: "{{ DB_PASSWORD }}"
+      POSTGRES_DB: "{{ DB_NAME }}"
