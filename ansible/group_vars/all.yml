@@ -1,0 +1,6 @@
+---
+DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
+DB_USER: "{{ lookup('env', 'DB_USER') }}"
+DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
+BACKEND_CONTAINER_NAME: "backend-api"
+DB_URL: "jdbc:postgresql://my3tierapp:5432/{{ lookup('env', 'DB_NAME') }}"
