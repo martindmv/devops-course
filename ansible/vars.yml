@@ -1,6 +1,0 @@
----
-DB_NAME: "{{ secret.DB_NAME }}"
-DB_USER: "{{ secret.DB_USER }}"
-DB_PASSWORD: "{{ secret.DB_PASSWORD }}"
-BACKEND_CONTAINER_NAME: "backend-api"
-DB_URL: "jdbc:postgresql://my3tierapp:5432/{{ secret.DB_NAME }}
