@@ -1,0 +1,11 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/proxy
+- name: Run Proxy
+  docker_container:
+    name: httpd-server
+    image: martindmv/my-apache-proxy:latest
+    networks:
+      - name: app-network
+    ports:
+      - "80:80" # On expose le port 80 du conteneur sur le port 80 du serveur
