@@ -1,16 +1,11 @@
 name: Deploy
 
 on:
-  workflow_run:
-    workflows: ["Backend CD"]
-    types:
-      - completed
-    branches:
-      - main # S'exécute UNIQUEMENT si le workflow CD a tourné sur la branche main
+  # C'est cette ligne qui crée le bouton "Run workflow" dans l'interface GitHub
+  workflow_dispatch:
 
 jobs:
   deploy-to-server:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
