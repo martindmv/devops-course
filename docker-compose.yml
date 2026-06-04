@@ -23,6 +23,8 @@ services:
     container_name: ${BACKEND_CONTAINER_NAME}
     restart: unless-stopped
     # On charge le fichier .env que vous avez créé à l'étape précédente
+    ports:
+      - "8080:8080"
     env_file:
       - ./backend-api/simpleapi/.env
     # Note de sécurité respectée : PAS de section "ports:" ici ! 
