@@ -5,6 +5,7 @@
   docker_container:
     name: my3tierapp
     image: martindmv/my-postgres-db:latest # Ou l'image de la DB de ton projet précédent
+    pull: always
     networks:
       - name: db-network
     env:

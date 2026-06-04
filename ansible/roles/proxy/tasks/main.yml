@@ -5,6 +5,7 @@
   docker_container:
     name: httpd-server
     image: martindmv/my-apache-proxy:latest
+    pull: always
     networks:
       - name: app-network
     ports:

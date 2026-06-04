@@ -5,6 +5,7 @@
   docker_container:
     name: backend-api
     image: martindmv/my-simple-api:latest
+    pull: always
     networks:
       - name: app-network
       - name: db-network
