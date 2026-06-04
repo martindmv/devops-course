@@ -41,6 +41,15 @@ jobs:
                 ${{secrets.DOCKERHUB_USERNAME}}/my-postgres-db:${{ github.sha }}
           push: true
 
+      - name: Build image and push frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./devops-front-main
+          tags: |
+                ${{secrets.DOCKERHUB_USERNAME}}/my-frontend:latest
+                ${{secrets.DOCKERHUB_USERNAME}}/my-frontend:${{ github.sha }}
+          push: true
+
       - name: Build image and push httpd
         uses: docker/build-push-action@v6
         with:
